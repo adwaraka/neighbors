@@ -51,7 +51,7 @@ def potentialCenter(garden):
 
 
 def isValid(arr, row, col):
-    return row > -1 and col > -1 and row < len(arr) and col < len(arr)
+    return row > -1 and col > -1 and row < len(arr) and col < len(arr[0])
 
 
 def hungryRabbit(garden):
@@ -71,6 +71,7 @@ def hungryRabbit(garden):
             "Position {}, {} and currently eaten "
             "carrot quantity {}".format(new_pos_x, new_pos_y, carrotsEaten))
         cur_x, cur_y = new_pos_x, new_pos_y
+        # print(garden)
     return carrotsEaten
 
 
