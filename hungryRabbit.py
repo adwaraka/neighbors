@@ -1,6 +1,7 @@
 '''
 There is a rabbit that starts in the middle of an n x m matrix, n > 0, m > 0.
 Each element of a matrix is an integer representing points gained for being on the spot. 
+
 If there are multiple possible "middles" then choose the one which has the highest point
 value to start on.
 
@@ -8,13 +9,15 @@ On each iteration, the rabbit can move up, left, right, or down.
 The rabbit will always move to the next spot with the highest point value 
 and will "consume" those points (set the point value in that position to 0). 
 The rabbit spots when all positions around it are 0s. 
+
 Calculate how many points the rabbit will score for a given m x n matrix.
 '''
 def potentialCenter(garden):
     row = len(garden)
     col = len(garden[0])
     if row%2 == 0 and col%2 == 0:
-        higherCarrotCount = {'1': garden[row//2][col//2],
+        higherCarrotCount = {
+            '1': garden[row//2][col//2],
             '2': garden[row//2-1][col//2],
             '3': garden[row//2][col//2-1],
             '4': garden[row//2-1][col//2-1]
@@ -57,7 +60,7 @@ def hungryRabbit(garden):
         "carrot quantity {}".format(cur_x - 1, cur_y - 1, carrotsEaten))
     garden[cur_x][cur_y] = 0
     while getAdjacentsquares(garden, cur_x, cur_y) != (0, 0, 0, 0):
-        new_pos_x, new_pos_y = getnextMaxCarrot  (garden, cur_x, cur_y)
+        new_pos_x, new_pos_y = getnextMaxCarrot(garden, cur_x, cur_y)
         carrotsEaten+=garden[new_pos_x][new_pos_y]
         garden[new_pos_x][new_pos_y] = 0
         print(
@@ -74,10 +77,10 @@ def getAdjacentsquares(garden, cur_x, cur_y):
 
 def getnextMaxCarrot  (garden, cur_x, cur_y):
     carrot_count = {
-    '1': garden[cur_x+1][cur_y], 
-    '2': garden[cur_x-1][cur_y], 
-    '3': garden[cur_x][cur_y+1], 
-    '4': garden[cur_x][cur_y-1]
+        '1': garden[cur_x+1][cur_y],
+        '2': garden[cur_x-1][cur_y],
+        '3': garden[cur_x][cur_y+1],
+        '4': garden[cur_x][cur_y-1]
     }
     sorted_d = sorted(carrot_count.items(), key=lambda x:x[1], reverse=True)
     # print(sorted_d)
@@ -96,8 +99,8 @@ if __name__ == "__main__":
     garden = [[5, 7, 8, 6, 3],
               [0, 0, 7, 0, 4],
               [4, 6, 3, 4, 9],
-              [3, 1, 0, 5, 8]]
-    # TODO remove this stupid padding logic
+              [3, 1, 0, 5, 8],]
+    # TODO remove the padding logic sometime in the future
     for row in garden:
     	row.insert(0, 0)
     	row.append(0)
