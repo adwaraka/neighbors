@@ -75,7 +75,7 @@ def getAdjacentsquares(garden, cur_x, cur_y):
     	    garden[cur_x][cur_y+1], garden[cur_x][cur_y-1])
 
 
-def getnextMaxCarrot  (garden, cur_x, cur_y):
+def getnextMaxCarrot(garden, cur_x, cur_y):
     carrot_count = {
         '1': garden[cur_x+1][cur_y],
         '2': garden[cur_x-1][cur_y],
