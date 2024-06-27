@@ -15,10 +15,13 @@ def uniquePathsRecursion(startX, startY, row, col, memo):
         return memo[startX][startY]
 
     allRight, allDown = 0, 0
+    # can we move right?
     if startX < row-1:
         allRight = uniquePathsRecursion(startX+1, startY, row, col, memo)
+    # can we move down?
     if startY < col-1:
         allDown = uniquePathsRecursion(startX, startY+1, row, col, memo)
+    # add all down and right paths
     memo[startX][startY] = allDown + allRight
     return memo[startX][startY]
 
