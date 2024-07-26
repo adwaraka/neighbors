@@ -35,7 +35,7 @@ def countIslands(arr):
 
 def isValid(row, col, arr):
     # print(row, col, arr[row][col])
-    return row > -1 and col > -1 and row < len(arr[0]) and col < len(arr[0])
+    return row > -1 and col > -1 and row < len(arr) and col < len(arr[0])
 
 arr = [[ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 ], 
        [ 0, 0, 0, 0, 0, 1, 1, 1, 1, 0 ],
