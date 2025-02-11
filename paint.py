@@ -1,5 +1,5 @@
 '''
-Not neighbor problem per-se but close enough.
+Not neighbor problem per-se but mixture of graphs and stacks
 
 You are expected to work through a basic “Paint” program (think of Microsoft Paint), 
 where we have a fixed m x n grid. 
@@ -23,62 +23,87 @@ redo - redoes the previous undo – after we perform a new drawing action,
 the redo history should be cleared
 
 draw - helper function to draw the grid to standard output
-'''
 
+color_fill - fill in color
+'''
+import copy
 
 class Paint(object):
 
     def __init__(self, row, col):
         self.row, self.col = row, col
         self.arr = [["-"]*col for i in range(row)]
+        self.sequence, self.history = [], []
 
     def clear(self):
         for i in range(self.row):
             for j in range(self.col):
                 self.arr[i][j] = "W"
+        arrCopy = copy.deepcopy(self.arr)
+        self.sequence.append(arrCopy)
+        self.history = []
 
     def draw(self):
+        array = copy.deepcopy(self.sequence[len(self.sequence) - 1])
         for i in range(self.row):
             for j in range(self.col):
-                print(self.arr[i][j], end="")  # print without newline
+                print(array[i][j], end="")  # print without newline
             print()
         print()
 
     def draw_cell(self, coord_x, coord_y, col):
-        if self.__isValid(coord_x, coord_y):
-            self.arr[coord_x][coord_y] = col
-        else:
-            print("Invalid position")
+        array = copy.deepcopy(self.sequence[len(self.sequence) - 1])
+        try:
+            if self.__isValid(coord_x, coord_y):
+                array[coord_x][coord_y] = col
+            else:
+                print("Invalid position")
+        finally:
+            arrCopy = copy.deepcopy(array)
+            self.sequence.append(arrCopy)
+            self.history = []
 
     def draw_rectangle(self, coord_x1, coord_y1, coord_x2, coord_y2, col):
+        array = copy.deepcopy(self.sequence[len(self.sequence) - 1])
         if self. __isValid(coord_x1, coord_y1) and self.__isValid(coord_x2, coord_y2):
             for i in range(coord_y1, coord_y2):
                 for j in range(coord_x1, coord_x2):
-                    self.arr[i][j] = col
-
-    def undo(self):
-    	# TODO
-    	pass
+                    array[i][j] = col
+        arrCopy = copy.deepcopy(array)
+        self.sequence.append(arrCopy)
+        self.history = []
 
     def redo(self):
-    	# TODO
-    	pass
+        try:
+            recentHistory = self.history.pop()
+            self.sequence.append(recentHistory)
+        except IndexError:
+            print("Cannot redo")
+
+    def undo(self):
+        try:
+            lastAction = self.sequence.pop()
+            self.history.append(lastAction)
+        except IndexError:
+            print("Cannot undo")
 
     def __isValid(self, row, col):
-        return row>-1 and col>-1 and row<=self.row and col<=self.col
+        return row>-1 and col>-1 and row<self.row and col<self.col
 
 
 def testPaint():
-    paint = Paint(22, 22)
+    paint = Paint(3, 3)
     paint.clear()
+    paint.draw_cell(0, 0, 'R')
+    paint.draw_cell(0, 1, 'R')
+    paint.draw_cell(0, 2, 'R')
+    paint.draw_cell(1, 1, 'R')
+    paint.draw_cell(1, 1, 'B')
     paint.draw()
-    paint.draw_cell(20, 2, 'G')
-    paint.draw()
-    paint.clear()
-    paint.draw()
-    paint.draw_rectangle(6, 3, 18, 10, 'B')
-    paint.draw()
-    paint.draw_rectangle(11, 15, 19, 20, 'R')
+    paint.undo()
+    paint.undo()
+    paint.undo()
+    paint.undo()
     paint.draw()
 
 testPaint()
