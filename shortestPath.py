@@ -20,7 +20,7 @@ def shortestPath(arr: list) -> int:
     arr[0][0] = 1
 
     while queue:
-        current_x, current_y, distance = queue.pop(0)
+        current_x, current_y, distance = queue.pop(0)  # don't forget the 0!
 
         if current_x == destX and current_y == destY:
             return distance
@@ -30,11 +30,15 @@ def shortestPath(arr: list) -> int:
             newY = current_y + dy
             if 0 <= newX <= destX and 0 <= newY <= destY:  # if valid
                 if arr[newX][newY] == 0:  # if it can be visited; aka 0
-                    arr[newX][newY] = 1  # mark as visited
+                    arr[newX][newY] = 1   # mark as visited
                     queue.append([newX, newY, distance + 1])
     return -1
 
-grid = [[0, 0, 0],
+grd1 = [[0, 0, 0],
         [1, 0, 0],
         [1, 1, 0]]
-print(shortestPath(grid))
+grd2 = [[0, 0, 0],
+        [1, 1, 0],
+        [1, 1, 0]]
+print(shortestPath(grd1))
+print(shortestPath(grd2))
